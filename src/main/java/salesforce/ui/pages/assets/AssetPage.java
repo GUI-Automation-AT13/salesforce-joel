@@ -6,26 +6,31 @@
  * license agreement you entered into with Fundacion Jala
  */
 
-package salesforce.ui.pages;
+package salesforce.ui.pages.assets;
 
-import core.Manager;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import salesforce.ui.pages.BasePage;
 
 /**
- * Represents assert creation page.
+ * Represents assert principal page.
  */
-public class CreateAssetPage extends BasePage {
+public class AssetPage extends BasePage {
 
     @FindBy(css = ".forceActionLink > div")
     private WebElement createAssetBtn;
 
-    public CreateAssetPage(Manager manager) {
-        super(manager);
+    private void clickCreateAssetBtn() {
+        createAssetBtn.click();
     }
 
     @Override
     protected void waitForPageLoaded() {
+        wait.until(ExpectedConditions.visibilityOf(createAssetBtn));
+    }
 
+    public WebElement getCreateAssetBtn() {
+        return createAssetBtn;
     }
 }

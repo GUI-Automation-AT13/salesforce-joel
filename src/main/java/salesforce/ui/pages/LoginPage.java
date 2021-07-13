@@ -8,7 +8,6 @@
 
 package salesforce.ui.pages;
 
-import core.Manager;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -27,22 +26,18 @@ public class LoginPage extends BasePage {
     @FindBy(id = "Login")
     private WebElement loginBtn;
 
-    public LoginPage(Manager manager) {
-        super(manager);
-    }
-
     @Override
     protected void waitForPageLoaded() {
         wait.until(ExpectedConditions.visibilityOf(loginBtn));
     }
 
     private LoginPage setUserName(final String userName) {
-        userNameTxtBox.sendKeys(userName);
+        webElementAction.setInputFields(userNameTxtBox, userName);
         return this;
     }
 
     private LoginPage setPassword(final String password) {
-        passwordTxtBox.sendKeys(password);
+        webElementAction.setInputFields(passwordTxtBox, password);
         return this;
     }
 
@@ -61,7 +56,6 @@ public class LoginPage extends BasePage {
         setUserName(userName);
         setPassword(password);
         clickLoginBtn();
-        Manager manager = Manager.getInstance();
-        return new HomePage(manager);
+        return new HomePage();
     }
 }

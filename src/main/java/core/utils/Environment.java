@@ -6,40 +6,35 @@
  * license agreement you entered into with Fundacion Jala
  */
 
-package config;
+package core.utils;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.util.Properties;
 
 /**
  * This class reads the properties file.
  */
-public class EnvironmentVariable {
+public class Environment {
     private static final String CONFIG_FILE_PATH = "config.properties";
-    public static Properties PROPERTIES;
-
-    static {
-        try {
-            PROPERTIES = readFile();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+    public static Properties VARIABLES = readFile();
 
     /**
      * Gets an object with all environment variables and their values within properties file.
      *
      * @return a property entity.
      */
-    public static Properties readFile() throws IOException {
+    public static Properties readFile() {
         Properties properties = new Properties();
         File file = new File(CONFIG_FILE_PATH);
         if (file.exists()) {
-            InputStream reading = new FileInputStream(file);
-            properties.load(reading);
+            InputStream reading = null;
+            try {
+                reading = new FileInputStream(file);
+                properties.load(reading);
+            } catch (IOException | NullPointerException e) {
+                throw new RuntimeException("It was not possible to read file properties.");
+            }
+
         }
         return properties;
     }

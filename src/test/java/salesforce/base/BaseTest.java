@@ -8,30 +8,29 @@
 
 package salesforce.base;
 
-import config.EnvironmentVariable;
-import core.Manager;
+import core.selenium.DriverManager;
 import org.openqa.selenium.WebDriver;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import salesforce.ui.pages.LoginPage;
+import salesforce.ui.PageTransporter;
 
 public class BaseTest {
 
     protected WebDriver driver;
     protected LoginPage loginPage;
-    protected Manager manager;
+    protected DriverManager driverManager;
+    protected PageTransporter pageTransporter;
 
     @BeforeClass
     public void init() {
-        manager = Manager.getInstance();
-        driver = manager.getDriver();
-        driver.get(EnvironmentVariable.PROPERTIES
-                .getProperty("Login_url"));
-        loginPage = new LoginPage(manager);
+        driverManager = DriverManager.getInstance();
+        pageTransporter = new PageTransporter();
+        loginPage = pageTransporter.navigateToLoginPage();
     }
 
     @AfterClass
     public void tearDown() {
-        driver.quit();
+        DriverManager.getInstance().getDriver().quit();
     }
 }

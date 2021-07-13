@@ -8,8 +8,16 @@
 
 package salesforce.assets;
 
+import org.testng.Assert;
+import org.testng.annotations.Test;
 import salesforce.login.LoginTest;
 
 public class CreateAssetTest extends LoginTest {
+
+    @Test
+    public void test1() {
+        System.out.println("Successful");
+        Assert.assertTrue(assetPage.getCreateAssetBtn() != null);
+    }
 
 }

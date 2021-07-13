@@ -8,16 +8,11 @@
 
 package salesforce.ui.pages;
 
-import core.Manager;
 
 /**
  * Represents home page.
  */
 public class HomePage extends BasePage {
-
-    public HomePage(Manager manager) {
-        super(manager);
-    }
 
     @Override
     protected void waitForPageLoaded() {

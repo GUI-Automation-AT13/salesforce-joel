@@ -1,16 +1,20 @@
 package salesforce.login;
 
-import config.EnvironmentVariable;
 import org.testng.annotations.BeforeClass;
 import salesforce.base.BaseTest;
+import salesforce.config.EnvConfig;
 import salesforce.ui.pages.HomePage;
+import salesforce.ui.pages.assets.AssetPage;
 
 public class LoginTest extends BaseTest {
 
+    protected AssetPage assetPage;
+
     @BeforeClass
     public void login() {
-        HomePage homePage = loginPage.loginSuccessful("jrojas@freeorg01.com", "fundacionjalaat13");
-        driver.get(EnvironmentVariable.PROPERTIES.getProperty("Endpoint_url"));
+        HomePage homePage = loginPage.loginSuccessful(EnvConfig.getInstance().getUsername(),
+                EnvConfig.getInstance().getPassword());
+        assetPage = pageTransporter.navigateToAssetPage();
     }
 
 }
