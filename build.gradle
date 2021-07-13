@@ -1,0 +1,40 @@
+plugins {
+    id 'java'
+    id 'checkstyle'
+}
+
+group 'org.example'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.testng:testng:7.4.0'
+    implementation 'org.seleniumhq.selenium:selenium-java:3.141.59'
+    implementation 'io.github.bonigarcia:webdrivermanager:4.4.3'
+}
+
+test {
+    useTestNG()
+}
+
+checkstyle {
+    toolVersion '8.44'
+    configFile file('config/checkstyle/checkstyle.xml')
+    checkstyleMain.source = "src/main/"
+    checkstyleMain.excludes = ["**/src/test/**"]
+}
+
+checkstyleMain {
+    source = 'src/main/java'
+}
+
+checkstyleTest {
+    source = 'src/main/java'
+}
+
+check.dependsOn build
+
+test.finalizedBy("checkstyleMain")
