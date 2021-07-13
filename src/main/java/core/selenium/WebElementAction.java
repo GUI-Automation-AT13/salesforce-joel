@@ -25,6 +25,12 @@ public class WebElementAction {
         wait = DriverManager.getInstance().getWait();
     }
 
+    /**
+     * Sets a webElement with a value.
+     *
+     * @param webElement that will be set.
+     * @param text as value that will set.
+     */
     public void setInputFields(final WebElement webElement, final String text) {
         wait.until(ExpectedConditions.visibilityOf(webElement));
         webElement.clear();
