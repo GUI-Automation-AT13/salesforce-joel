@@ -19,5 +19,4 @@ public class CreateAssetTest extends LoginTest {
         System.out.println("Successful");
         Assert.assertTrue(assetPage.getCreateAssetBtn() != null);
     }
-
 }

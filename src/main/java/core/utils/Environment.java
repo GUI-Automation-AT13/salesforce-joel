@@ -37,7 +37,6 @@ public class Environment {
             } catch (IOException | NullPointerException e) {
                 throw new RuntimeException("It was not possible to read file properties.");
             }
-
         }
         return properties;
     }
