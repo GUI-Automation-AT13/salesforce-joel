@@ -1,6 +1,7 @@
 package core.utils;
 
-
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.StringTokenizer;
@@ -18,9 +19,18 @@ public class DateConverter {
      * @return a date entity.
      */
     public static Date transform(String phrase) {
-        Time time = converter(phrase);
-        int valueUnity = TimeUnity.valueOf(time.getUnity()).getValue();
-        return calculate(valueUnity, time.getAmount());
+        if (isCorrect(phrase)) {
+            try {
+                return createDate(phrase);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        } else {
+            Time time = converter(phrase);
+            int valueUnity = TimeUnity.valueOf(time.getUnity()).getValue();
+            return calculate(valueUnity, time.getAmount());
+        }
+        return null;
     }
 
     /**
@@ -75,12 +85,34 @@ public class DateConverter {
             if (exist(daily)) {
                 return time = new Time(Daily.valueOf(daily).getDaily(), Daily.valueOf(daily).getValue());
             }
-        } else {
+        } else if (countWords(daily) < 5) {
             daily = daily.toLowerCase().trim();
             String[] dateList = daily.split(" ");
             return time = new Time(dateList[1], Daily.valueOf(dateList[2]).getValue()
                     * Integer.parseInt(dateList[0]));
         }
         return new Time();
+    }
+
+    /**
+     * Creates a date with a string that has format.
+     *
+     * @param stringDate is string that represents date.
+     * @return a date.
+     * @throws ParseException in case date couldn't be created.
+     */
+    public static Date createDate(String stringDate) throws ParseException {
+        stringDate.replace("-", "/");
+        return new SimpleDateFormat("MM/dd/yyyy").parse(stringDate);
+    }
+
+    /**
+     * Verifies a string has correct format.
+     *
+     * @param stringDate is string that represents date.
+     * @return a boolean.
+     */
+    public static boolean isCorrect(String stringDate) {
+        return stringDate.matches("^(0?[1-9]|1[012])[/-](0?[1-9]|[12][0-9]|3[01])[/-]((19|20)\\d\\d)$");
     }
 }

@@ -3,6 +3,8 @@ package unittest.core.utils;
 import core.utils.DateConverter;
 import core.utils.Time;
 import core.utils.TimeUnity;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import org.testng.Assert;
@@ -91,6 +93,14 @@ public class DateConverterTest {
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.YEAR, 1);
         expectedDate = calendar.getTime();
+        Assert.assertEquals(date, expectedDate, "the date did not transform correctly");
+    }
+
+    @Test
+    public void testTransformDateFormatStringToDate() throws ParseException {
+        String timePhrase = "7/15/2021";
+        Date date = DateConverter.transform(timePhrase);
+        Date expectedDate = new SimpleDateFormat("MM/dd/yyyy").parse(timePhrase);
         Assert.assertEquals(date, expectedDate, "the date did not transform correctly");
     }
 }
