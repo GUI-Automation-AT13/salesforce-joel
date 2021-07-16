@@ -9,15 +9,32 @@
 package salesforce.assets;
 
 import org.testng.Assert;
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.Test;
 import salesforce.login.LoginTest;
+import salesforce.ui.pages.assets.CreateAssetPage;
+import salesforce.ui.pages.assets.DeleteConfirmationPage;
+import salesforce.ui.pages.assets.OptionMenuPage;
 
 public class CreateAssetTest extends LoginTest {
 
     @Test
-    public void test1() {
-        System.out.println("Successful");
-        Assert.assertTrue(assetPage.getCreateAssetBtn() != null);
+    public void testCreateAssetWithNecesaryAttributes() {
+        CreateAssetPage createAssetPage = assetPage.clickCreateAssetBtn();
+        createAssetPage.setUserName("Name Asset 1");
+        createAssetPage.clickRoleOptionBox();
+        createAssetPage.clickRoleFirstOptionBox();
+        createdAssetPage = createAssetPage.clickSaveBtn();
+        Assert.assertEquals(createdAssetPage.getCreatedAssetTitleText(), "Name Asset 1",
+                "Asset was not created");
+    }
+
+    @AfterClass
+    public void deleteAsset() {
+        OptionMenuPage optionMenuPage = createdAssetPage.clickCreatedAssetOptionBtn();
+        DeleteConfirmationPage deleteConfirmationPage = optionMenuPage.clickDeleteBtn();
+        deleteConfirmationPage.clickDeleteConfirmationBtn();
+        pageTransporter.navigateToAssetPage();
     }
 
 }

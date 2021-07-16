@@ -14,24 +14,27 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import salesforce.ui.pages.BasePage;
 
 /**
- * Represents asset principal page.
+ * Represents page of a created asset.
  */
-public class AssetPage extends BasePage {
+public class CreatedAssetPage extends BasePage {
 
-    @FindBy(css = ".forceActionLink > div")
-    private WebElement createAssetBtn;
+    @FindBy(xpath = "//h1/div/span")
+    private WebElement createdAssetTitle;
 
-    public CreateAssetPage clickCreateAssetBtn() {
-        createAssetBtn.click();
-        return new CreateAssetPage();
+    @FindBy(xpath = "//ul[contains(@class,\'branding-actions\')]/li/div//a[@role=\'button\']")
+    private WebElement createdAssetOptionBtn;
+
+    public OptionMenuPage clickCreatedAssetOptionBtn() {
+        createdAssetOptionBtn.click();
+        return new OptionMenuPage();
     }
 
     @Override
     protected void waitForPageLoaded() {
-        wait.until(ExpectedConditions.visibilityOf(createAssetBtn));
+        wait.until(ExpectedConditions.visibilityOf(createdAssetTitle));
     }
 
-    public WebElement getCreateAssetBtn() {
-        return createAssetBtn;
+    public String getCreatedAssetTitleText() {
+        return createdAssetTitle.getText();
     }
 }

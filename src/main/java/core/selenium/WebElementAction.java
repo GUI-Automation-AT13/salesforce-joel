@@ -36,4 +36,14 @@ public class WebElementAction {
         webElement.clear();
         webElement.sendKeys(text);
     }
+
+    /**
+     * .
+     *
+     * @param webElement .
+     */
+    public void clickFields(final WebElement webElement) {
+        wait.until(ExpectedConditions.visibilityOf(webElement));
+        webElement.click();
+    }
 }

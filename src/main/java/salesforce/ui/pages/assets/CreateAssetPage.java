@@ -14,7 +14,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import salesforce.ui.pages.BasePage;
 
 /**
- * Represents assert creation page.
+ * Represents asset creation page.
  */
 public class CreateAssetPage extends BasePage {
 
@@ -50,6 +50,24 @@ public class CreateAssetPage extends BasePage {
 
     @FindBy(xpath = "(//div[contains(@class,\'uiInputDate\')]/div/input)[3]")
     private WebElement usageDateCalendar;
+
+    @FindBy(xpath = "(//div[@class=\'autocompleteWrapper slds-grow\']/input)[1]")
+    private WebElement roleOptionBox;
+
+    @FindBy(xpath = "(//div[@role=\'listbox\']//a)[1]")
+    private WebElement roleFirstOptionBox;
+
+    @FindBy(xpath = "(//div[@class=\'autocompleteWrapper slds-grow\']/input)[2]")
+    private WebElement productOptionBox;
+
+    @FindBy(xpath = "(//div[@class=\'listContent\']//a)[3]")
+    private WebElement productFirstOptionBox;
+
+    @FindBy(xpath = "(//div[@class=\'autocompleteWrapper slds-grow\']/input)[3]")
+    private WebElement contactOptionBox;
+
+    @FindBy(xpath = "(//div[@class=\'listContent\']//a)[7]")
+    private WebElement contactFirstOptionBox;
 
     @FindBy(xpath = "//button[@title=\'Guardar\']")
     private WebElement saveBtn;
@@ -96,6 +114,30 @@ public class CreateAssetPage extends BasePage {
         statusOptionsComboBox.click();
     }
 
+    public void clickRoleOptionBox() {
+        webElementAction.clickFields(roleOptionBox);
+    }
+
+    public void clickRoleFirstOptionBox() {
+        webElementAction.clickFields(roleFirstOptionBox);
+    }
+
+    public void clickProductOptionBox() {
+        webElementAction.clickFields(productOptionBox);
+    }
+
+    public void clickProductFirstOptionBox() {
+        webElementAction.clickFields(productFirstOptionBox);
+    }
+
+    public void clickContactOptionBox() {
+        webElementAction.clickFields(productOptionBox);
+    }
+
+    public void clickContactFirstOptionBox() {
+        webElementAction.clickFields(contactFirstOptionBox);
+    }
+
     public CreateAssetPage setInstallDateCalendar(final String  installDate) {
         webElementAction.setInputFields(installDateCalendar, installDate);
         return this;
@@ -111,7 +153,8 @@ public class CreateAssetPage extends BasePage {
         return this;
     }
 
-    public void clickSaveBtn() {
+    public CreatedAssetPage clickSaveBtn() {
         saveBtn.click();
+        return new CreatedAssetPage();
     }
 }
