@@ -18,19 +18,29 @@ public class DateConverter {
      * @param phrase is a string that we want to transform.
      * @return a date entity.
      */
-    public static Date transform(String phrase) {
+    public static Date transform(String phrase) throws ParseException {
+        validate(phrase);
         if (isCorrect(phrase)) {
-            try {
-                return createDate(phrase);
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
+            return createDate(phrase);
         } else {
             Time time = converter(phrase);
             int valueUnity = TimeUnity.valueOf(time.getUnity()).getValue();
             return calculate(valueUnity, time.getAmount());
         }
-        return null;
+    }
+
+    /**
+     * Validates basic requisites of time phrase.
+     *
+     * @param phrase is the string that we want to validate.
+     */
+    public static void validate(String phrase) {
+        if (phrase == null) {
+            throw new IllegalArgumentException("Time Phrase can not be null");
+        }
+        if (phrase.isBlank()) {
+            throw new IllegalArgumentException("Time Phrase can not be empty or blank");
+        }
     }
 
     /**
@@ -41,11 +51,10 @@ public class DateConverter {
      * @return a date entity.
      */
     public static Date calculate(int election, int value) {
-        Date date = new Date();
         Calendar calendar = Calendar.getInstance();
-        calendar.setTime(date);
+        calendar.setTime(new Date());
         calendar.add(election, value);
-        return date = calendar.getTime();
+        return calendar.getTime();
     }
 
     /**
@@ -56,8 +65,7 @@ public class DateConverter {
      */
     public static int countWords(String phrase) {
         StringTokenizer stringTokenizer = new StringTokenizer(phrase);
-        int amount = stringTokenizer.countTokens();
-        return amount;
+        return stringTokenizer.countTokens();
     }
 
     /**
@@ -66,32 +74,33 @@ public class DateConverter {
      * @param timeUnity is a string.
      * @return a boolean.
      */
-    public static boolean exist(String timeUnity) {
+    private static boolean exist(String timeUnity) {
         String[] days = {"today", "yesterday", "tomorrow"};
-        boolean val = ArrayUtils.contains(days, timeUnity);
-        return val;
+        return ArrayUtils.contains(days, timeUnity);
     }
 
     /**
      * Converts a time phrase to time entity.
      *
-     * @param daily is a string.
+     * @param phrase is a string.
      * @return a time entity.
      */
-    public static Time converter(String daily) {
-        Time time;
-        if (countWords(daily) == 1) {
-            daily = daily.toLowerCase().trim();
-            if (exist(daily)) {
-                return time = new Time(Daily.valueOf(daily).getDaily(), Daily.valueOf(daily).getValue());
+    public static Time converter(String phrase) {
+        if (countWords(phrase) == 1) {
+            phrase = phrase.toLowerCase().trim();
+            if (exist(phrase)) {
+                return new Time(Daily.valueOf(phrase).getDaily(), Daily.valueOf(phrase).getValue());
+            } else {
+                throw new IllegalArgumentException("Time word is not valid");
             }
-        } else if (countWords(daily) < 5) {
-            daily = daily.toLowerCase().trim();
-            String[] dateList = daily.split(" ");
-            return time = new Time(dateList[1], Daily.valueOf(dateList[2]).getValue()
+        } else if (countWords(phrase) < 5) {
+            phrase = phrase.toLowerCase().trim();
+            String[] dateList = phrase.split(" ");
+            return new Time(dateList[1], Daily.valueOf(dateList[2]).getValue()
                     * Integer.parseInt(dateList[0]));
+        } else {
+            throw new IllegalArgumentException("Time phrase does not have the correct format");
         }
-        return new Time();
     }
 
     /**
@@ -101,7 +110,7 @@ public class DateConverter {
      * @return a date.
      * @throws ParseException in case date couldn't be created.
      */
-    public static Date createDate(String stringDate) throws ParseException {
+    private static Date createDate(String stringDate) throws ParseException {
         stringDate.replace("-", "/");
         return new SimpleDateFormat("MM/dd/yyyy").parse(stringDate);
     }
@@ -112,7 +121,7 @@ public class DateConverter {
      * @param stringDate is string that represents date.
      * @return a boolean.
      */
-    public static boolean isCorrect(String stringDate) {
+    private static boolean isCorrect(String stringDate) {
         return stringDate.matches("^(0?[1-9]|1[012])[/-](0?[1-9]|[12][0-9]|3[01])[/-]((19|20)\\d\\d)$");
     }
 }

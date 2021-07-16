@@ -8,6 +8,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import org.testng.Assert;
+import org.testng.TestException;
 import org.testng.annotations.Test;
 
 public class DateConverterTest {
@@ -18,20 +19,6 @@ public class DateConverterTest {
         int wordAmount = DateConverter.countWords(phrase);
         int expectedWordAmount = 5;
         Assert.assertEquals(expectedWordAmount, wordAmount, "Number of words are not correct");
-    }
-
-    @Test
-    public void testExistDailyTimeUnitInArray() {
-        String dailyUnity = "today";
-        boolean exist = DateConverter.exist(dailyUnity);
-        Assert.assertTrue(exist, "That word does not exist in array");
-    }
-
-    @Test
-    public void testNotExistAnyWordInArray() {
-        String dailyUnity = "tonight";
-        boolean exist = DateConverter.exist(dailyUnity);
-        Assert.assertFalse(exist, "That word exists in array");
     }
 
     @Test
@@ -75,7 +62,7 @@ public class DateConverterTest {
     }
 
     @Test
-    public void testTransformDatePhraseToPastDate() {
+    public void testTransformDatePhraseToPastDate() throws ParseException {
         String timePhrase = "5 months ago";
         Date date = DateConverter.transform(timePhrase);
         Date expectedDate = new Date();
@@ -86,7 +73,7 @@ public class DateConverterTest {
     }
 
     @Test
-    public void testTransformDatePhraseToFutureDate() {
+    public void testTransformDatePhraseToFutureDate() throws ParseException {
         String timePhrase = "1 years from now";
         Date date = DateConverter.transform(timePhrase);
         Date expectedDate = new Date();
@@ -102,5 +89,47 @@ public class DateConverterTest {
         Date date = DateConverter.transform(timePhrase);
         Date expectedDate = new SimpleDateFormat("MM/dd/yyyy").parse(timePhrase);
         Assert.assertEquals(date, expectedDate, "the date did not transform correctly");
+    }
+
+    @Test(expectedExceptions = IllegalArgumentException.class,
+            expectedExceptionsMessageRegExp = "Time Phrase can not be null")
+    public void testNullValidation() throws ParseException {
+        String timePhrase = null;
+        DateConverter.transform(timePhrase);
+    }
+
+    @Test(expectedExceptions = IllegalArgumentException.class,
+            expectedExceptionsMessageRegExp = "Time Phrase can not be empty or blank")
+    public void testEmptyValidation() throws ParseException {
+        String timePhrase = "";
+        DateConverter.transform(timePhrase);
+    }
+
+    @Test(expectedExceptions = IllegalArgumentException.class,
+            expectedExceptionsMessageRegExp = "Time word is not valid")
+    public void testNonExistentWordValidation() throws ParseException {
+        String timePhrase = "tonight";
+        DateConverter.transform(timePhrase);
+    }
+
+    @Test(expectedExceptions = IllegalArgumentException.class,
+            expectedExceptionsMessageRegExp = "Time word is not valid")
+    public void testBadFormatDateValidation() throws ParseException {
+        String timePhrase = "12.26.2020";
+        DateConverter.transform(timePhrase);
+    }
+
+    @Test(expectedExceptions = IllegalArgumentException.class,
+            expectedExceptionsMessageRegExp = "No enum constant core.utils.Daily.years")
+    public void testBadFormatTimePhraseValidation() throws ParseException {
+        String timePhrase = "5 years years";
+        DateConverter.transform(timePhrase);
+    }
+
+    @Test(expectedExceptions = IllegalArgumentException.class,
+            expectedExceptionsMessageRegExp = "Time phrase does not have the correct format")
+    public void testTooLargeTimePhraseValidation() throws ParseException {
+        String timePhrase = "5 years years from now";
+        DateConverter.transform(timePhrase);
     }
 }

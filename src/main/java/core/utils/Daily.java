@@ -10,7 +10,7 @@ public enum Daily {
     ago("ago", -1),
     from("from", 1);
     String daily;
-    int value;
+    private int value;
 
     Daily(String daily, int value) {
         this.daily = daily;

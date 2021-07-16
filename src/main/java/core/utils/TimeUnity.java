@@ -16,7 +16,7 @@ public enum TimeUnity {
     month(2),
     years(1),
     year(1);
-    int value;
+    private int value;
 
     TimeUnity(int value) {
         this.value = value;
