@@ -38,9 +38,9 @@ public class WebElementAction {
     }
 
     /**
-     * .
+     * Clicks a webElement.
      *
-     * @param webElement .
+     * @param webElement is what we want to click.
      */
     public void clickFields(final WebElement webElement) {
         wait.until(ExpectedConditions.visibilityOf(webElement));
