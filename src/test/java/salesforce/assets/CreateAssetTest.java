@@ -22,8 +22,33 @@ public class CreateAssetTest extends LoginTest {
     public void testCreateAssetWithNecesaryAttributes() {
         CreateAssetPage createAssetPage = assetPage.clickCreateAssetBtn();
         createAssetPage.setUserName("Name Asset 1");
-        createAssetPage.clickRoleOptionBox();
-        createAssetPage.clickRoleFirstOptionBox();
+        createAssetPage.clickRoleOption();
+        createAssetPage.clickRoleFirstOption();
+        createdAssetPage = createAssetPage.clickSaveBtn();
+        Assert.assertEquals(createdAssetPage.getCreatedAssetTitleText(), "Name Asset 1",
+                "Asset was not created");
+    }
+
+    @Test
+    public void testCreateAssetWithAllAttributes() {
+        CreateAssetPage createAssetPage = assetPage.clickCreateAssetBtn();
+        createAssetPage.setUserName("Name Asset 1");
+        createAssetPage.setSerialNumber("Serial Number");
+        createAssetPage.setQuantity("10");
+        createAssetPage.setPrice("100");
+        createAssetPage.setDescriptionTxtBox("Description");
+        createAssetPage.setInstallDateCalendar("8/7/2021");
+        createAssetPage.setPurchaseDateCalendar("15/7/2021");
+        createAssetPage.setUsageDateCalendar("25/7/2021");
+        createAssetPage.clickActive();
+        createAssetPage.clickStatus();
+        createAssetPage.clickStatusOptions();
+        createAssetPage.clickRoleOption();
+        createAssetPage.clickRoleFirstOption();
+        createAssetPage.clickContactOption();
+        createAssetPage.clickContactFirstOption();
+        createAssetPage.clickProductOption();
+        createAssetPage.clickProductFirstOption();
         createdAssetPage = createAssetPage.clickSaveBtn();
         Assert.assertEquals(createdAssetPage.getCreatedAssetTitleText(), "Name Asset 1",
                 "Asset was not created");

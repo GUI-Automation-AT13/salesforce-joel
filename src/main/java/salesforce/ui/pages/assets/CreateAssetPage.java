@@ -21,13 +21,13 @@ public class CreateAssetPage extends BasePage {
     @FindBy(xpath = "(//div[contains(@class, \'uiInputText\')][.//label])[1]/input")
     private WebElement userNameTxtBox;
 
-    @FindBy(xpath = "(//div[contains(@class, \\'uiInputText\\')][.//label])[2]/input")
+    @FindBy(xpath = "(//div[contains(@class, \'uiInputText\')][.//label])[2]/input")
     private WebElement serialNumberTxtBox;
 
-    @FindBy(xpath = "(//input[contains(@class, \\'uiInputSmartNumber\\')])[1]")
+    @FindBy(xpath = "(//input[contains(@class, \'uiInputSmartNumber\')])[1]")
     private WebElement quantityTxtBox;
 
-    @FindBy(xpath = "(//input[contains(@class, \\'uiInputSmartNumber\\')])[2]")
+    @FindBy(xpath = "(//input[contains(@class, \'uiInputSmartNumber\')])[2]")
     private WebElement priceTxtBox;
 
     @FindBy(xpath = "//textarea")
@@ -66,10 +66,10 @@ public class CreateAssetPage extends BasePage {
     @FindBy(xpath = "(//div[@class=\'autocompleteWrapper slds-grow\']/input)[3]")
     private WebElement contactOptionBox;
 
-    @FindBy(xpath = "(//div[@class=\'listContent\']//a)[7]")
+    @FindBy(xpath = "(//div[@class=\'listContent\']//a)[3]")
     private WebElement contactFirstOptionBox;
 
-    @FindBy(xpath = "//button[@title=\'Guardar\']")
+    @FindBy(xpath = "//button[@title=\'Save\']")
     private WebElement saveBtn;
 
     @Override
@@ -102,39 +102,39 @@ public class CreateAssetPage extends BasePage {
         return this;
     }
 
-    public void clickActiveCheckBox() {
+    public void clickActive() {
         activeCheckBox.click();
     }
 
-    public void clickStatusComboBox() {
+    public void clickStatus() {
         statusComboBox.click();
     }
 
-    public void clickStatusOptionsComboBox() {
+    public void clickStatusOptions() {
         statusOptionsComboBox.click();
     }
 
-    public void clickRoleOptionBox() {
+    public void clickRoleOption() {
         webElementAction.clickFields(roleOptionBox);
     }
 
-    public void clickRoleFirstOptionBox() {
+    public void clickRoleFirstOption() {
         webElementAction.clickFields(roleFirstOptionBox);
     }
 
-    public void clickProductOptionBox() {
+    public void clickProductOption() {
         webElementAction.clickFields(productOptionBox);
     }
 
-    public void clickProductFirstOptionBox() {
+    public void clickProductFirstOption() {
         webElementAction.clickFields(productFirstOptionBox);
     }
 
-    public void clickContactOptionBox() {
-        webElementAction.clickFields(productOptionBox);
+    public void clickContactOption() {
+        webElementAction.clickFields(contactOptionBox);
     }
 
-    public void clickContactFirstOptionBox() {
+    public void clickContactFirstOption() {
         webElementAction.clickFields(contactFirstOptionBox);
     }
 

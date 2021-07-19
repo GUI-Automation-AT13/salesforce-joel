@@ -10,6 +10,7 @@ package core.selenium;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
 /**
@@ -28,7 +29,7 @@ public class DriverSelector {
             case "FIREFOX":
                 return new FirefoxDriver();
             default:
-                return new ChromeDriver();
+                return new ChromeDriver(new ChromeOptions().addArguments("--disable-notifications"));
         }
 
     }
