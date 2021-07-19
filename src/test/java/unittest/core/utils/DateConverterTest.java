@@ -1,14 +1,13 @@
 package unittest.core.utils;
 
-import core.utils.DateConverter;
-import core.utils.Time;
-import core.utils.TimeUnity;
+import core.utils.dateconverter.DateConverter;
+import core.utils.dateconverter.Time;
+import core.utils.dateconverter.TimeUnity;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import org.testng.Assert;
-import org.testng.TestException;
 import org.testng.annotations.Test;
 
 public class DateConverterTest {
@@ -120,7 +119,7 @@ public class DateConverterTest {
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class,
-            expectedExceptionsMessageRegExp = "No enum constant core.utils.Daily.years")
+            expectedExceptionsMessageRegExp = "No enum constant core.utils.dateconverter.Daily.years")
     public void testBadFormatTimePhraseValidation() throws ParseException {
         String timePhrase = "5 years years";
         DateConverter.transform(timePhrase);

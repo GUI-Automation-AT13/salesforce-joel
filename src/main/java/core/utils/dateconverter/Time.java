@@ -1,4 +1,4 @@
-package core.utils;
+package core.utils.dateconverter;
 
 /**
  * Gets how many and what type of time units will add or rest.

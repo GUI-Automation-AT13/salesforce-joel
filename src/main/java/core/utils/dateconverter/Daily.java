@@ -1,4 +1,4 @@
-package core.utils;
+package core.utils.dateconverter;
 
 /**
  * Gets us predefined values of different time units.

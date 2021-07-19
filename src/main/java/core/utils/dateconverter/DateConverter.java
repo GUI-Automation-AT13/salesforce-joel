@@ -1,4 +1,4 @@
-package core.utils;
+package core.utils.dateconverter;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
