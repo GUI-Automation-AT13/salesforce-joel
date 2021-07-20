@@ -36,4 +36,14 @@ public class WebElementAction {
         webElement.clear();
         webElement.sendKeys(text);
     }
+
+    /**
+     * Clicks a webElement.
+     *
+     * @param webElement is what we want to click.
+     */
+    public void clickFields(final WebElement webElement) {
+        wait.until(ExpectedConditions.visibilityOf(webElement));
+        webElement.click();
+    }
 }

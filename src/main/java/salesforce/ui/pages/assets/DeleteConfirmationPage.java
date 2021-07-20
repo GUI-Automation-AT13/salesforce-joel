@@ -14,24 +14,19 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import salesforce.ui.pages.BasePage;
 
 /**
- * Represents asset principal page.
+ * Represents page of deleting confirmation of an asset.
  */
-public class AssetPage extends BasePage {
+public class DeleteConfirmationPage extends BasePage {
 
-    @FindBy(css = ".forceActionLink > div")
-    private WebElement createAssetBtn;
+    @FindBy(xpath = "//div[contains(@class,\'modal-container\')]//button[contains(@class,\'default\')]")
+    private WebElement deleteConfirmationBtn;
 
-    public CreateAssetPage clickCreateAssetBtn() {
-        createAssetBtn.click();
-        return new CreateAssetPage();
+    public void clickDeleteConfirmationBtn() {
+        deleteConfirmationBtn.click();
     }
 
     @Override
     protected void waitForPageLoaded() {
-        wait.until(ExpectedConditions.visibilityOf(createAssetBtn));
-    }
-
-    public WebElement getCreateAssetBtn() {
-        return createAssetBtn;
+        wait.until(ExpectedConditions.visibilityOf(deleteConfirmationBtn));
     }
 }
