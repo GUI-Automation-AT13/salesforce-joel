@@ -21,9 +21,9 @@ public class AssetPage extends BasePage {
     @FindBy(css = ".forceActionLink > div")
     private WebElement createAssetBtn;
 
-    public CreateAssetPage clickCreateAssetBtn() {
+    public NewAssetPage clickCreateAssetBtn() {
         createAssetBtn.click();
-        return new CreateAssetPage();
+        return new NewAssetPage();
     }
 
     @Override

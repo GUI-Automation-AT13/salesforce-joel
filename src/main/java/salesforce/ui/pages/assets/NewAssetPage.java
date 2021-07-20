@@ -8,6 +8,7 @@
 
 package salesforce.ui.pages.assets;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -16,7 +17,7 @@ import salesforce.ui.pages.BasePage;
 /**
  * Represents asset creation page.
  */
-public class CreateAssetPage extends BasePage {
+public class NewAssetPage extends BasePage {
 
     @FindBy(xpath = "(//div[contains(@class, \'uiInputText\')][.//label])[1]/input")
     private WebElement userNameTxtBox;
@@ -72,89 +73,124 @@ public class CreateAssetPage extends BasePage {
     @FindBy(xpath = "//button[@title=\'Save\']")
     private WebElement saveBtn;
 
+    private static final String COMMON_LOCATOR = "//label/span[text()='%s']/../..//input";
+    private static final String DESCRIPTION_LOCATOR = "//label/span[text()='Description']/../..//textarea";
+    private static final String SELECT_LOCATOR = "//div[@role='listbox']//a[.//div[text()='%s']]";
+    private static final String BUTTON_LOCATOR = "//button[@title=\'%s\']";
+
     @Override
     protected void waitForPageLoaded() {
         wait.until(ExpectedConditions.visibilityOf(saveBtn));
+        wait.until(ExpectedConditions.visibilityOf(userNameTxtBox));
     }
 
-    public CreateAssetPage setUserName(final String userName) {
+    public NewAssetPage setUserName(final String userName) {
         webElementAction.setInputFields(userNameTxtBox, userName);
         return this;
     }
 
-    public CreateAssetPage setSerialNumber(final String serialNumber) {
+    public NewAssetPage setField(final String field, final String value) {
+        webElementAction.setInputFields(driver.findElement(By.xpath(String.format(COMMON_LOCATOR, field))), value);
+        return this;
+    }
+
+    public NewAssetPage clickField(final String field) {
+        webElementAction.clickFields(driver.findElement(By.xpath(String.format(COMMON_LOCATOR, field))));
+        return this;
+    }
+
+    public NewAssetPage selectField(final String field) {
+        webElementAction.clickFields(driver.findElement(By.xpath(String.format(SELECT_LOCATOR, field))));
+        return this;
+    }
+
+    public NewAssetPage setDescription(final String value) {
+        webElementAction.setInputFields(driver.findElement(By.xpath(DESCRIPTION_LOCATOR)), value);
+        return this;
+    }
+
+    public NewAssetPage setSerialNumber(final String serialNumber) {
         webElementAction.setInputFields(serialNumberTxtBox, serialNumber);
         return this;
     }
 
-    public CreateAssetPage setQuantity(final String  quantity) {
+    public NewAssetPage setQuantity(final String  quantity) {
         webElementAction.setInputFields(quantityTxtBox, quantity);
         return this;
     }
 
-    public CreateAssetPage setPrice(final String  price) {
+    public NewAssetPage setPrice(final String  price) {
         webElementAction.setInputFields(priceTxtBox, price);
         return this;
     }
 
-    public CreateAssetPage setDescriptionTxtBox(final String  description) {
+    public NewAssetPage setDescriptionTxtBox(final String  description) {
         webElementAction.setInputFields(descriptionTxtBox, description);
         return this;
     }
 
-    public void clickActive() {
+    public NewAssetPage clickActive() {
         activeCheckBox.click();
+        return this;
     }
 
-    public void clickStatus() {
+    public NewAssetPage clickStatus() {
         statusComboBox.click();
+        return this;
     }
 
-    public void clickStatusOptions() {
+    public NewAssetPage clickStatusOptions() {
         statusOptionsComboBox.click();
+        return this;
     }
 
-    public void clickRoleOption() {
+    public NewAssetPage clickRoleOption() {
         webElementAction.clickFields(roleOptionBox);
+        return this;
     }
 
-    public void clickRoleFirstOption() {
+    public NewAssetPage clickRoleFirstOption() {
         webElementAction.clickFields(roleFirstOptionBox);
+        return this;
     }
 
-    public void clickProductOption() {
+    public NewAssetPage clickProductOption() {
         webElementAction.clickFields(productOptionBox);
+        return this;
     }
 
-    public void clickProductFirstOption() {
+    public NewAssetPage clickProductFirstOption() {
         webElementAction.clickFields(productFirstOptionBox);
+        return this;
     }
 
-    public void clickContactOption() {
+    public NewAssetPage clickContactOption() {
         webElementAction.clickFields(contactOptionBox);
+        return this;
     }
 
-    public void clickContactFirstOption() {
+    public NewAssetPage clickContactFirstOption() {
         webElementAction.clickFields(contactFirstOptionBox);
+        return this;
     }
 
-    public CreateAssetPage setInstallDateCalendar(final String  installDate) {
+    public NewAssetPage setInstallDateCalendar(final String  installDate) {
         webElementAction.setInputFields(installDateCalendar, installDate);
         return this;
     }
 
-    public CreateAssetPage setPurchaseDateCalendar(final String  purchaseDate) {
+    public NewAssetPage setPurchaseDateCalendar(final String  purchaseDate) {
         webElementAction.setInputFields(purchaseDateCalendar, purchaseDate);
         return this;
     }
 
-    public CreateAssetPage setUsageDateCalendar(final String  usageDate) {
+    public NewAssetPage setUsageDateCalendar(final String  usageDate) {
         webElementAction.setInputFields(usageDateCalendar, usageDate);
         return this;
     }
 
-    public CreatedAssetPage clickSaveBtn() {
+    public AssetDetailPage clickSaveBtn() {
         saveBtn.click();
-        return new CreatedAssetPage();
+        return new AssetDetailPage();
     }
 }
