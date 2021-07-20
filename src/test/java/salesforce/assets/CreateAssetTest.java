@@ -61,5 +61,4 @@ public class CreateAssetTest extends LoginTest {
         deleteConfirmationPage.clickDeleteConfirmationBtn();
         pageTransporter.navigateToAssetPage();
     }
-
 }

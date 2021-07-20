@@ -17,6 +17,4 @@ public class LoginTest extends BaseTest {
                 EnvConfig.getInstance().getPassword());
         assetPage = pageTransporter.navigateToAssetPage();
     }
-
-
 }

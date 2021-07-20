@@ -21,7 +21,6 @@ public class OptionMenuPage extends BasePage {
     @FindBy(xpath = "//div[@role=\'menu\']//a[./div[@title=\'Delete\']]")
     private WebElement deleteBtn;
 
-
     public DeleteConfirmationPage clickDeleteBtn() {
         deleteBtn.click();
         return new DeleteConfirmationPage();
