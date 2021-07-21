@@ -22,18 +22,6 @@ public class NewAssetPage extends BasePage {
     @FindBy(xpath = "(//div[contains(@class, \'uiInputText\')][.//label])[1]/input")
     private WebElement userNameTxtBox;
 
-    @FindBy(xpath = "(//div[contains(@class, \'uiInputText\')][.//label])[2]/input")
-    private WebElement serialNumberTxtBox;
-
-    @FindBy(xpath = "(//input[contains(@class, \'uiInputSmartNumber\')])[1]")
-    private WebElement quantityTxtBox;
-
-    @FindBy(xpath = "(//input[contains(@class, \'uiInputSmartNumber\')])[2]")
-    private WebElement priceTxtBox;
-
-    @FindBy(xpath = "//textarea")
-    private WebElement descriptionTxtBox;
-
     @FindBy(xpath = "//div[@class=\'slds-form-element__control\']//input[@type=\'checkbox\']")
     private WebElement activeCheckBox;
 
@@ -43,29 +31,11 @@ public class NewAssetPage extends BasePage {
     @FindBy(xpath = "//a[@title=\'Shipped\']")
     private WebElement statusOptionsComboBox;
 
-    @FindBy(xpath = "(//div[contains(@class,\'uiInputDate\')]/div/input)[1]")
-    private WebElement installDateCalendar;
-
-    @FindBy(xpath = "(//div[contains(@class,\'uiInputDate\')]/div/input)[2]")
-    private WebElement purchaseDateCalendar;
-
-    @FindBy(xpath = "(//div[contains(@class,\'uiInputDate\')]/div/input)[3]")
-    private WebElement usageDateCalendar;
-
-    @FindBy(xpath = "(//div[@class=\'autocompleteWrapper slds-grow\']/input)[1]")
-    private WebElement roleOptionBox;
-
     @FindBy(xpath = "(//div[@role=\'listbox\']//a)[1]")
     private WebElement roleFirstOptionBox;
 
-    @FindBy(xpath = "(//div[@class=\'autocompleteWrapper slds-grow\']/input)[2]")
-    private WebElement productOptionBox;
-
     @FindBy(xpath = "(//div[@class=\'listContent\']//a)[3]")
     private WebElement productFirstOptionBox;
-
-    @FindBy(xpath = "(//div[@class=\'autocompleteWrapper slds-grow\']/input)[3]")
-    private WebElement contactOptionBox;
 
     @FindBy(xpath = "(//div[@class=\'listContent\']//a)[3]")
     private WebElement contactFirstOptionBox;
@@ -84,16 +54,24 @@ public class NewAssetPage extends BasePage {
         wait.until(ExpectedConditions.visibilityOf(userNameTxtBox));
     }
 
-    public NewAssetPage setUserName(final String userName) {
-        webElementAction.setInputFields(userNameTxtBox, userName);
-        return this;
-    }
-
+    /**
+     * Sets a webElement with a value.
+     *
+     * @param field identifies what webElement will be set.
+     * @param value represents what value sets inside webElement.
+     * @return a NewAssetPage entity.
+     */
     public NewAssetPage setField(final String field, final String value) {
         webElementAction.setInputFields(driver.findElement(By.xpath(String.format(COMMON_LOCATOR, field))), value);
         return this;
     }
 
+    /**
+     * Clicks a webElement.
+     *
+     * @param field identifies what webElement will be clicked.
+     * @return a NewAssetPage entity.
+     */
     public NewAssetPage clickField(final String field) {
         webElementAction.clickFields(driver.findElement(By.xpath(String.format(COMMON_LOCATOR, field))));
         return this;
@@ -107,101 +85,98 @@ public class NewAssetPage extends BasePage {
      * @return a NewAssetPage entity.
      */
     public NewAssetPage clickOptionField(final String field, final String optionField) {
-        webElementAction.clickOptionField(driver.findElement(By.xpath(String.format(COMMON_LOCATOR, field))),
-                driver.findElement(By.xpath(String.format(SELECT_LOCATOR, optionField))));
+        webElementAction.clickFields(driver.findElement(By.xpath(String.format(COMMON_LOCATOR, field))));
+        webElementAction.clickFields(driver.findElement(By.xpath(String.format(SELECT_LOCATOR, optionField))));
         return this;
     }
 
+    /**
+     * Selects a webElement.
+     *
+     * @param field identifies what webElement will be selected.
+     * @return a NewAssetPage entity.
+     */
     public NewAssetPage selectField(final String field) {
         webElementAction.clickFields(driver.findElement(By.xpath(String.format(SELECT_LOCATOR, field))));
         return this;
     }
 
+    /**
+     * Sets description webElement with a value.
+     *
+     * @param value represents what value sets inside description webElement.
+     * @return a NewAssetPage entity.
+     */
     public NewAssetPage setDescription(final String value) {
         webElementAction.setInputFields(driver.findElement(By.xpath(DESCRIPTION_LOCATOR)), value);
         return this;
     }
 
-    public NewAssetPage setSerialNumber(final String serialNumber) {
-        webElementAction.setInputFields(serialNumberTxtBox, serialNumber);
-        return this;
-    }
-
-    public NewAssetPage setQuantity(final String  quantity) {
-        webElementAction.setInputFields(quantityTxtBox, quantity);
-        return this;
-    }
-
-    public NewAssetPage setPrice(final String  price) {
-        webElementAction.setInputFields(priceTxtBox, price);
-        return this;
-    }
-
-    public NewAssetPage setDescriptionTxtBox(final String  description) {
-        webElementAction.setInputFields(descriptionTxtBox, description);
-        return this;
-    }
-
+    /**
+     * Clicks activeCheckBox webElement.
+     *
+     * @return a NewAssetPage entity.
+     */
     public NewAssetPage clickActive() {
         activeCheckBox.click();
         return this;
     }
 
+    /**
+     * Clicks statusComboBox webElement.
+     *
+     * @return a NewAssetPage entity.
+     */
     public NewAssetPage clickStatus() {
         statusComboBox.click();
         return this;
     }
 
+    /**
+     * Clicks statusOptionsComboBox webElement.
+     *
+     * @return a NewAssetPage entity.
+     */
     public NewAssetPage clickStatusOptions() {
         statusOptionsComboBox.click();
         return this;
     }
 
-    public NewAssetPage clickRoleOption() {
-        webElementAction.clickFields(roleOptionBox);
-        return this;
-    }
-
+    /**
+     * Clicks roleFirstOptionBox webElement.
+     *
+     * @return a NewAssetPage entity.
+     */
     public NewAssetPage clickRoleFirstOption() {
         webElementAction.clickFields(roleFirstOptionBox);
         return this;
     }
 
-    public NewAssetPage clickProductOption() {
-        webElementAction.clickFields(productOptionBox);
-        return this;
-    }
-
+    /**
+     * Clicks productFirstOptionBox webElement.
+     *
+     * @return a NewAssetPage entity.
+     */
     public NewAssetPage clickProductFirstOption() {
         webElementAction.clickFields(productFirstOptionBox);
         return this;
     }
 
-    public NewAssetPage clickContactOption() {
-        webElementAction.clickFields(contactOptionBox);
-        return this;
-    }
-
+    /**
+     * Clicks contactFirstOptionBox webElement.
+     *
+     * @return a NewAssetPage entity.
+     */
     public NewAssetPage clickContactFirstOption() {
         webElementAction.clickFields(contactFirstOptionBox);
         return this;
     }
 
-    public NewAssetPage setInstallDateCalendar(final String  installDate) {
-        webElementAction.setInputFields(installDateCalendar, installDate);
-        return this;
-    }
-
-    public NewAssetPage setPurchaseDateCalendar(final String  purchaseDate) {
-        webElementAction.setInputFields(purchaseDateCalendar, purchaseDate);
-        return this;
-    }
-
-    public NewAssetPage setUsageDateCalendar(final String  usageDate) {
-        webElementAction.setInputFields(usageDateCalendar, usageDate);
-        return this;
-    }
-
+    /**
+     * Clicks saveBtn webElement.
+     *
+     * @return a AssetDetailPage entity.
+     */
     public AssetDetailPage clickSaveBtn() {
         saveBtn.click();
         return new AssetDetailPage();

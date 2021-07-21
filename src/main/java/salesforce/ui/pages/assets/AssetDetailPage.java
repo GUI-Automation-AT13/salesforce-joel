@@ -32,19 +32,47 @@ public class AssetDetailPage extends BasePage {
     @FindBy(xpath = "//div/span[text()='Quantity']/../div//span")
     private WebElement bodyQuantityText;
 
+    @FindBy(css = ".slds-theme--success")
+    private WebElement actionMessage;
+
+    @FindBy(xpath = "//span[text()='Created By']/../../div/span/span")
+    private WebElement createdDate;
+
+    /**
+     * Clicks createdAssetOptionBtn webElement.
+     *
+     * @return an OptionMenuPage entity.
+     */
     public OptionMenuPage clickCreatedAssetOptionBtn() {
         createdAssetOptionBtn.click();
         return new OptionMenuPage();
     }
 
+    /**
+     * Gets text of a webElement.
+     *
+     * @param field identifies what webElement is needed.
+     * @return a string that is the text.
+     */
     public String getField(final String field) {
         return driver.findElement(By.xpath(String.format(HEADER_ATTRIBUTE_LOCATOR, field))).getText();
     }
 
+    /**
+     * Gets text of a webElement in body section.
+     *
+     * @param field identifies what webElement is needed.
+     * @return a string that is the text.
+     */
     public String getFieldBody(final String field) {
         return driver.findElement(By.xpath(String.format(BODY_ATTRIBUTE_LOCATOR, field))).getText();
     }
 
+    /**
+     * Gets text of bodyQuantityText webElement.
+     *
+     * @return a string that is the text.
+     */
     public String getBodyQuantity() {
         return bodyQuantityText.getText();
     }
@@ -54,7 +82,30 @@ public class AssetDetailPage extends BasePage {
         wait.until(ExpectedConditions.visibilityOf(createdAssetTitle));
     }
 
+    /**
+     * Gets text of createdAssetTitle webElement.
+     *
+     * @return a string that is the text.
+     */
     public String getCreatedAssetTitleText() {
         return createdAssetTitle.getText();
+    }
+
+    /**
+     * Gets text of actionMessage webElement.
+     *
+     * @return a string that is the text.
+     */
+    public String getActionMessage() {
+        return actionMessage.getText();
+    }
+
+    /**
+     * Gets text of createdDate webElement.
+     *
+     * @return a string that is the text.
+     */
+    public String getCreatedDate() {
+        return createdDate.getText();
     }
 }

@@ -8,6 +8,8 @@
 
 package salesforce.assets;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.Test;
@@ -28,8 +30,13 @@ public class CreateAssetTest extends LoginTest {
                 .clickField("Account")
                 .clickRoleFirstOption();
         assetDetailPage = createAssetPage.clickSaveBtn();
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        String recentDateString = sdf.format(new Date());
         softAssert.assertEquals(assetDetailPage.getField("Account"), "cuenta 13",
                 "Account name does not match");
+        softAssert.assertEquals(assetDetailPage.getActionMessage(),
+                "Asset \"Name Asset 1\" was created.", "Message of creating is not correct");
+        softAssert.assertTrue(assetDetailPage.getCreatedDate().contains(recentDateString));
         Assert.assertEquals(assetDetailPage.getCreatedAssetTitleText(), "Name Asset 1",
                 "Asset was not created");
     }
@@ -55,12 +62,14 @@ public class CreateAssetTest extends LoginTest {
                 .clickField("Product")
                 .clickProductFirstOption();
         assetDetailPage = createAssetPage.clickSaveBtn();
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        String recentDateString = sdf.format(new Date());
         softAssert.assertEquals(assetDetailPage.getField("Account"), "cuenta 13",
-                "Account name does not match");
+                "Account name from header does not match");
         softAssert.assertEquals(assetDetailPage.getField("Contact"), "contact 2",
-                "Account name does not match");
+                "Contact name from header does not match");
         softAssert.assertEquals(assetDetailPage.getBodyQuantity(), "100",
-                "Account name does not match");
+                "Asset quantity from header does not match");
         softAssert.assertEquals(assetDetailPage.getFieldBody("Asset Name"), "Serial Number",
                 "Asset name does not match");
         softAssert.assertEquals(assetDetailPage.getFieldBody("Quantity"), "10",
@@ -73,6 +82,9 @@ public class CreateAssetTest extends LoginTest {
                 "Asset purchase Date does not match");
         softAssert.assertEquals(assetDetailPage.getFieldBody("Usage End Date"), "25/7/2021",
                 "Asset usage End Date does not match");
+        softAssert.assertEquals(assetDetailPage.getActionMessage(),
+                "Asset \"Name Asset 1\" was created.", "Message of creating is not correct");
+        softAssert.assertTrue(assetDetailPage.getCreatedDate().contains(recentDateString));
         Assert.assertEquals(assetDetailPage.getCreatedAssetTitleText(), "Name Asset 1",
                 "Asset was not created");
     }
