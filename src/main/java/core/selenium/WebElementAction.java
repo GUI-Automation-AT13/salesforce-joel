@@ -46,4 +46,17 @@ public class WebElementAction {
         wait.until(ExpectedConditions.visibilityOf(webElement));
         webElement.click();
     }
+
+    /**
+     * Clicks a webElement after other.
+     *
+     * @param field is what we want to click.
+     * @param optionField is the next one.
+     */
+    public void clickOptionField(final WebElement field, final WebElement optionField) {
+        wait.until(ExpectedConditions.visibilityOf(field));
+        field.click();
+        wait.until(ExpectedConditions.visibilityOf(optionField));
+        optionField.click();
+    }
 }

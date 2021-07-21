@@ -76,7 +76,7 @@ public class NewAssetPage extends BasePage {
     private static final String COMMON_LOCATOR = "//label/span[text()='%s']/../..//input";
     private static final String DESCRIPTION_LOCATOR = "//label/span[text()='Description']/../..//textarea";
     private static final String SELECT_LOCATOR = "//div[@role='listbox']//a[.//div[text()='%s']]";
-    private static final String BUTTON_LOCATOR = "//button[@title=\'%s\']";
+    private static final String BUTTON_LOCATOR = "//button[@title='%s']";
 
     @Override
     protected void waitForPageLoaded() {
@@ -96,6 +96,19 @@ public class NewAssetPage extends BasePage {
 
     public NewAssetPage clickField(final String field) {
         webElementAction.clickFields(driver.findElement(By.xpath(String.format(COMMON_LOCATOR, field))));
+        return this;
+    }
+
+    /**
+     * Selects a webElement and a inside one.
+     *
+     * @param field is first webElement that will be clicked.
+     * @param optionField is second webElement that will be clicked.
+     * @return a NewAssetPage entity.
+     */
+    public NewAssetPage clickOptionField(final String field, final String optionField) {
+        webElementAction.clickOptionField(driver.findElement(By.xpath(String.format(COMMON_LOCATOR, field))),
+                driver.findElement(By.xpath(String.format(SELECT_LOCATOR, optionField))));
         return this;
     }
 
