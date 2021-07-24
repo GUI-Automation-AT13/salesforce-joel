@@ -21,9 +21,14 @@ public class AssetPage extends BasePage {
     @FindBy(css = ".forceActionLink > div")
     private WebElement createAssetBtn;
 
-    public CreateAssetPage clickCreateAssetBtn() {
+    /**
+     * Clicks createAssetBtn webElement.
+     *
+     * @return a NewAssetPage entity.
+     */
+    public NewAssetPage clickCreateAssetBtn() {
         createAssetBtn.click();
-        return new CreateAssetPage();
+        return new NewAssetPage();
     }
 
     @Override
@@ -31,6 +36,11 @@ public class AssetPage extends BasePage {
         wait.until(ExpectedConditions.visibilityOf(createAssetBtn));
     }
 
+    /**
+     * Gets createAssetBtn webElement.
+     *
+     * @return a WebElement entity.
+     */
     public WebElement getCreateAssetBtn() {
         return createAssetBtn;
     }

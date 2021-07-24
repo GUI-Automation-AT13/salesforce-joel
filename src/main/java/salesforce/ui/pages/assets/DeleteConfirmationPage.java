@@ -21,6 +21,9 @@ public class DeleteConfirmationPage extends BasePage {
     @FindBy(xpath = "//div[contains(@class,\'modal-container\')]//button[contains(@class,\'default\')]")
     private WebElement deleteConfirmationBtn;
 
+    /**
+     * Clicks deleteConfirmationBtn webElement.
+     */
     public void clickDeleteConfirmationBtn() {
         deleteConfirmationBtn.click();
     }

@@ -31,16 +31,31 @@ public class LoginPage extends BasePage {
         wait.until(ExpectedConditions.visibilityOf(loginBtn));
     }
 
+    /**
+     * Sets userNameTxtBox webElement with a value.
+     *
+     * @param userName represents what value it wants to set.
+     * @return a LoginPage entity.
+     */
     private LoginPage setUserName(final String userName) {
         webElementAction.setInputFields(userNameTxtBox, userName);
         return this;
     }
 
+    /**
+     * Sets passwordTxtBox webElement with a value.
+     *
+     * @param password represents what value it wants to set.
+     * @return a LoginPage entity.
+     */
     private LoginPage setPassword(final String password) {
         webElementAction.setInputFields(passwordTxtBox, password);
         return this;
     }
 
+    /**
+     * Clicks loginBtn webElement.
+     */
     private void clickLoginBtn() {
         loginBtn.click();
     }

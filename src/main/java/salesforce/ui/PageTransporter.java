@@ -23,11 +23,21 @@ public class PageTransporter {
         DriverManager.getInstance().getDriver().navigate().to(url);
     }
 
+    /**
+     * Navigates to asset page.
+     *
+     * @return an AssetPage entity.
+     */
     public AssetPage navigateToAssetPage() {
         goToUrl(baseUrl.concat(EnvConfig.getInstance().getEndpointUrl()));
         return new AssetPage();
     }
 
+    /**
+     * Navigates to login page.
+     *
+     * @return a LoginPage entity.
+     */
     public LoginPage navigateToLoginPage() {
         goToUrl(EnvConfig.getInstance().getLoginUrl());
         return new LoginPage();
