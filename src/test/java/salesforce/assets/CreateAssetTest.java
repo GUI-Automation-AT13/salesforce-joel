@@ -15,6 +15,7 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 import salesforce.login.LoginTest;
+import salesforce.ui.FieldName;
 import salesforce.ui.pages.assets.DeleteConfirmationPage;
 import salesforce.ui.pages.assets.NewAssetPage;
 import salesforce.ui.pages.assets.OptionMenuPage;
@@ -25,68 +26,84 @@ public class CreateAssetTest extends LoginTest {
 
     @Test
     public void testCreateAssetWithNecessaryAttributes() {
+        String assetName = "Name Asset 1";
         NewAssetPage createAssetPage = assetPage.clickCreateAssetBtn();
-        createAssetPage.setField("Asset Name", "Name Asset 1")
-                .clickField("Account")
+        createAssetPage.setField(FieldName.ASSET_NAME.getText(), assetName)
+                .clickField(FieldName.ACCOUNT.getText())
                 .clickRoleFirstOption();
         assetDetailPage = createAssetPage.clickSaveBtn();
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        SimpleDateFormat sdf = new SimpleDateFormat("d/M/yyyy");
         String recentDateString = sdf.format(new Date());
-        softAssert.assertEquals(assetDetailPage.getField("Account"), "cuenta 13",
+        softAssert.assertEquals(assetDetailPage.getField(FieldName.ACCOUNT.getText()), "cuenta 13",
                 "Account name does not match");
-        softAssert.assertEquals(assetDetailPage.getActionMessage(),
-                "Asset \"Name Asset 1\" was created.", "Message of creating is not correct");
+        softAssert.assertEquals(assetDetailPage.getActionMessage(), "success\nAsset \"Name Asset 1\" was"
+                + " created.\nClose", "Message of creating is not correct");
         softAssert.assertTrue(assetDetailPage.getCreatedDate().contains(recentDateString));
-        Assert.assertEquals(assetDetailPage.getCreatedAssetTitleText(), "Name Asset 1",
+        Assert.assertEquals(assetDetailPage.getCreatedAssetTitleText(), assetName,
                 "Asset was not created");
+        softAssert.assertAll();
     }
 
     @Test
     public void testCreateAssetWithAllAttributes() {
+        String assetName = "Name Asset 1";
+        String serialNumber = "Serial Number";
+        String quantity = "10";
+        String price = "100";
+        String description = "Description";
+        String installDate = "8/7/2021";
+        String purchaseDate = "15/7/2021";
+        String usageEndDate = "25/7/2021";
+        String accountName = "cuenta 13";
+        String contactName = "contact 2";
         NewAssetPage createAssetPage = assetPage.clickCreateAssetBtn();
-        createAssetPage.setField("Asset Name", "Name Asset 1")
-                .setField("Serial Number", "Serial Number")
-                .setField("Quantity", "10")
-                .setField("Price", "100")
-                .setDescription("Description")
-                .setField("Install Date", "8/7/2021")
-                .setField("Purchase Date", "15/7/2021")
-                .setField("Usage End Date", "25/7/2021")
+        createAssetPage.setField(FieldName.ASSET_NAME.getText(), assetName)
+                .setField(FieldName.SERIAL_NUMBER.getText(), serialNumber)
+                .setField(FieldName.QUANTITY.getText(), quantity)
+                .setField(FieldName.PRICE.getText(), price)
+                .setDescription(description)
+                .setField(FieldName.INSTALL_DATE.getText(), installDate)
+                .setField(FieldName.PURCHASE_DATE.getText(), purchaseDate)
+                .setField(FieldName.USAGE_END_DATE.getText(), usageEndDate)
                 .clickActive()
                 .clickStatus()
                 .clickStatusOptions()
-                .clickField("Account")
+                .clickField(FieldName.ACCOUNT.getText())
                 .clickRoleFirstOption()
-                .clickField("Contact")
+                .clickField(FieldName.CONTACT.getText())
                 .clickContactFirstOption()
-                .clickField("Product")
+                .clickField(FieldName.PRODUCT.getText())
                 .clickProductFirstOption();
         assetDetailPage = createAssetPage.clickSaveBtn();
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        SimpleDateFormat sdf = new SimpleDateFormat("d/M/yyyy");
         String recentDateString = sdf.format(new Date());
-        softAssert.assertEquals(assetDetailPage.getField("Account"), "cuenta 13",
+        softAssert.assertEquals(assetDetailPage.getField(FieldName.ACCOUNT.getText()), accountName,
                 "Account name from header does not match");
-        softAssert.assertEquals(assetDetailPage.getField("Contact"), "contact 2",
+        softAssert.assertEquals(assetDetailPage.getField(FieldName.CONTACT.getText()), contactName,
                 "Contact name from header does not match");
-        softAssert.assertEquals(assetDetailPage.getBodyQuantity(), "100",
+        softAssert.assertTrue(assetDetailPage.getBodyQuantity().contains(quantity),
                 "Asset quantity from header does not match");
-        softAssert.assertEquals(assetDetailPage.getFieldBody("Asset Name"), "Serial Number",
+        softAssert.assertEquals(assetDetailPage.getFieldBody(FieldName.ASSET_NAME.getText()), assetName,
                 "Asset name does not match");
-        softAssert.assertEquals(assetDetailPage.getFieldBody("Quantity"), "10",
+        softAssert.assertEquals(assetDetailPage.getFieldBody(FieldName.SERIAL_NUMBER.getText()), serialNumber,
+                "Asset name does not match");
+        softAssert.assertTrue(assetDetailPage.getFieldBody(FieldName.QUANTITY.getText()).contains(quantity),
                 "Asset quantity does not match");
-        softAssert.assertEquals(assetDetailPage.getFieldBody("Price"), "100",
+        softAssert.assertTrue(assetDetailPage.getFieldBody(FieldName.PRICE.getText()).contains(price),
                 "Asset price does not match");
-        softAssert.assertEquals(assetDetailPage.getFieldBody("Install Date"), "8/7/2021",
+        softAssert.assertEquals(assetDetailPage.getFieldBody(FieldName.INSTALL_DATE.getText()), installDate,
                 "Asset install Date does not match");
-        softAssert.assertEquals(assetDetailPage.getFieldBody("Purchase Date"), "15/7/2021",
+        softAssert.assertEquals(assetDetailPage.getFieldBody(FieldName.PURCHASE_DATE.getText()), purchaseDate,
                 "Asset purchase Date does not match");
-        softAssert.assertEquals(assetDetailPage.getFieldBody("Usage End Date"), "25/7/2021",
+        softAssert.assertEquals(assetDetailPage.getFieldBody(FieldName.USAGE_END_DATE.getText()), usageEndDate,
                 "Asset usage End Date does not match");
         softAssert.assertEquals(assetDetailPage.getActionMessage(),
-                "Asset \"Name Asset 1\" was created.", "Message of creating is not correct");
+                "success\nAsset \"Name Asset 1\" was created.\nClose",
+                "Message of creating is not correct");
         softAssert.assertTrue(assetDetailPage.getCreatedDate().contains(recentDateString));
-        Assert.assertEquals(assetDetailPage.getCreatedAssetTitleText(), "Name Asset 1",
+        Assert.assertEquals(assetDetailPage.getCreatedAssetTitleText(), assetName,
                 "Asset was not created");
+        softAssert.assertAll();
     }
 
     @AfterMethod
