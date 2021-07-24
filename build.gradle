@@ -27,6 +27,9 @@ dependencies {
     implementation 'io.rest-assured:rest-assured:4.4.0'
     implementation 'com.fasterxml.jackson.core:jackson-annotations:2.12.4'
     implementation 'com.fasterxml.jackson.core:jackson-databind:2.12.4'
+    implementation 'io.cucumber:cucumber-java:6.10.4'
+    implementation 'io.cucumber:cucumber-testng:6.10.4'
+    implementation 'io.cucumber:cucumber-picocontainer:6.10.4'
 }
 
 test {
