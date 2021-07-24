@@ -14,34 +14,25 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import salesforce.ui.pages.BasePage;
 
 /**
- * Represents asset principal page.
+ * Represents page of option menu in created asset.
  */
-public class AssetPage extends BasePage {
+public class OptionMenuPage extends BasePage {
 
-    @FindBy(css = ".forceActionLink > div")
-    private WebElement createAssetBtn;
+    @FindBy(xpath = "//div[@role=\'menu\']//a[./div[@title=\'Delete\']]")
+    private WebElement deleteBtn;
 
     /**
-     * Clicks createAssetBtn webElement.
+     * Clicks deleteBtn webElement.
      *
-     * @return a NewAssetPage entity.
+     * @return a DeleteConfirmationPage entity.
      */
-    public NewAssetPage clickCreateAssetBtn() {
-        createAssetBtn.click();
-        return new NewAssetPage();
+    public DeleteConfirmationPage clickDeleteBtn() {
+        deleteBtn.click();
+        return new DeleteConfirmationPage();
     }
 
     @Override
     protected void waitForPageLoaded() {
-        wait.until(ExpectedConditions.visibilityOf(createAssetBtn));
-    }
-
-    /**
-     * Gets createAssetBtn webElement.
-     *
-     * @return a WebElement entity.
-     */
-    public WebElement getCreateAssetBtn() {
-        return createAssetBtn;
+        wait.until(ExpectedConditions.visibilityOf(deleteBtn));
     }
 }
