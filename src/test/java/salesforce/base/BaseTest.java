@@ -10,8 +10,7 @@ package salesforce.base;
 
 import core.selenium.DriverManager;
 import org.openqa.selenium.WebDriver;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
+import org.testng.annotations.*;
 import salesforce.ui.pages.LoginPage;
 import salesforce.ui.PageTransporter;
 
@@ -22,14 +21,14 @@ public class BaseTest {
     protected DriverManager driverManager;
     protected PageTransporter pageTransporter;
 
-    @BeforeClass
+    @BeforeSuite
     public void init() {
         driverManager = DriverManager.getInstance();
         pageTransporter = new PageTransporter();
         loginPage = pageTransporter.navigateToLoginPage();
     }
 
-    @AfterClass
+    @AfterSuite
     public void tearDown() {
         DriverManager.getInstance().getDriver().quit();
     }

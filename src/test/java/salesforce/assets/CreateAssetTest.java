@@ -11,7 +11,7 @@ package salesforce.assets;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import org.testng.Assert;
-import org.testng.annotations.AfterClass;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 import salesforce.login.LoginTest;
@@ -89,7 +89,7 @@ public class CreateAssetTest extends LoginTest {
                 "Asset was not created");
     }
 
-    @AfterClass
+    @AfterMethod
     public void deleteAsset() {
         OptionMenuPage optionMenuPage = assetDetailPage.clickCreatedAssetOptionBtn();
         DeleteConfirmationPage deleteConfirmationPage = optionMenuPage.clickDeleteBtn();

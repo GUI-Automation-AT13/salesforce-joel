@@ -74,8 +74,20 @@ public class DateConverter {
      * @param timeUnity is a string.
      * @return a boolean.
      */
-    private static boolean exist(String timeUnity) {
+    private static boolean existDailyTimeUnit(String timeUnity) {
         String[] days = {"today", "yesterday", "tomorrow"};
+        return ArrayUtils.contains(days, timeUnity);
+    }
+
+    /**
+     * Verifies if a time unity exists in the array.
+     *
+     * @param timeUnity is a string.
+     * @return a boolean.
+     */
+    private static boolean existTimeUnit(String timeUnity) {
+        String[] days = {"seconds", "minutes", "hours", "days", "months", "years", "second", "minute", "hour", "day",
+                         "month", "year"};
         return ArrayUtils.contains(days, timeUnity);
     }
 
@@ -88,7 +100,7 @@ public class DateConverter {
     public static Time converter(String phrase) {
         if (countWords(phrase) == 1) {
             phrase = phrase.toLowerCase().trim();
-            if (exist(phrase)) {
+            if (existDailyTimeUnit(phrase)) {
                 return new Time(Daily.valueOf(phrase).getDaily(), Daily.valueOf(phrase).getValue());
             } else {
                 throw new IllegalArgumentException("Time word is not valid");
@@ -96,8 +108,12 @@ public class DateConverter {
         } else if (countWords(phrase) < 5) {
             phrase = phrase.toLowerCase().trim();
             String[] dateList = phrase.split(" ");
-            return new Time(dateList[1], Daily.valueOf(dateList[2]).getValue()
-                    * Integer.parseInt(dateList[0]));
+            if (dateList[0].matches("[0-9]*") && existTimeUnit(dateList[1])) {
+                return new Time(dateList[1], Daily.valueOf(dateList[2]).getValue()
+                        * Integer.parseInt(dateList[0]));
+            } else {
+                throw new IllegalArgumentException("Time phrase does not have the correct format");
+            }
         } else {
             throw new IllegalArgumentException("Time phrase does not have the correct format");
         }
