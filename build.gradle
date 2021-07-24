@@ -1,6 +1,16 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'info.solidsoft.gradle.pitest:gradle-pitest-plugin:1.6.0'
+    }
+}
+
 plugins {
     id 'java'
     id 'checkstyle'
+    id 'info.solidsoft.pitest'  version '1.6.0'
 }
 
 group 'org.example'
@@ -41,3 +51,11 @@ checkstyleTest {
 check.dependsOn build
 
 test.finalizedBy("checkstyleMain")
+
+pitest {
+    testPlugin = 'testng'
+    targetClasses = ['core.utils.dateconverter.DateConverter*']
+    targetTests = ['unittest.core.utils.DateConverterTest*']
+    threads = 4
+    outputFormats = ['XML', 'HTML']
+}
