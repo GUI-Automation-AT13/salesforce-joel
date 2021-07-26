@@ -1,9 +1,7 @@
 package cucumber.steps;
 
-import core.selenium.DriverManager;
-import io.cucumber.datatable.DataTable;
-import io.cucumber.java.After;
-import io.cucumber.java.Before;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import core.utils.ToEntity;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
@@ -11,90 +9,78 @@ import io.cucumber.java.en.When;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
-
-import org.openqa.selenium.WebDriver;
+import java.util.Set;
 import org.testng.asserts.SoftAssert;
+import salesforce.api.entity.Asset;
 import salesforce.config.EnvConfig;
 import salesforce.ui.PageTransporter;
-import salesforce.ui.pages.HomePage;
-import salesforce.ui.pages.LoginPage;
 import salesforce.ui.pages.assets.*;
 
 public class CreateAssetSteps {
-    protected WebDriver driver;
-    protected LoginPage loginPage;
-    protected DriverManager driverManager;
-    protected PageTransporter pageTransporter;
+
     protected AssetPage assetPage;
-    protected AssetDetailPage assetDetailPage;
     SoftAssert softAssert = new SoftAssert();
     String recentDateString;
+    Asset asset;
+    Set<String> fields;
 
-    @Before
-    public void init() {
-        driverManager = DriverManager.getInstance();
-        pageTransporter = new PageTransporter();
-        loginPage = pageTransporter.navigateToLoginPage();
+    private BaseUtil base;
+
+    public CreateAssetSteps(BaseUtil base) {
+        this.base = base;
     }
 
-    @After
-    public void tearDown() {
-        OptionMenuPage optionMenuPage = assetDetailPage.clickCreatedAssetOptionBtn();
-        DeleteConfirmationPage deleteConfirmationPage = optionMenuPage.clickDeleteBtn();
-        deleteConfirmationPage.clickDeleteConfirmationBtn();
-        pageTransporter.navigateToAssetPage();
-        DriverManager.getInstance().getDriver().quit();
-    }
-
-    @Given("I login to salesforce site as an developer user")
-    public void iLoginToSalesforceSiteAsAnDeveloperUser() {
-        HomePage homePage = loginPage.loginSuccessful(EnvConfig.getInstance().getUsername(),
+    @Given("^I login to salesforce site as an? (.*?) user$")
+    public void iLoginToSalesforceSiteAsAnDeveloperUser(final String userType) {
+        base.loginPage.loginSuccessful(EnvConfig.getInstance().getUsername(),
                 EnvConfig.getInstance().getPassword());
     }
 
-    @And("I navigate to Asset page")
-    public void iNavigateToAssetPage() {
-        assetPage = pageTransporter.navigateToAssetPage();
+    @And("^I navigate to (.*?) page$")
+    public void iNavigateToAssetPage(final String endpoint) {
+        PageTransporter.navigateToAnyPage(endpoint);
     }
 
     @When("I create a new Asset with fields")
-    public void iCreateANewAssetWithFields(DataTable table) {
-        Map<String, String> attributes = table.asMap(String.class, String.class);
-        System.out.println(attributes.get("Asset name"));
-        System.out.println(attributes.get("Account name"));
+    public void iCreateANewAssetWithFields(Map<String, String> table) throws JsonProcessingException, ClassNotFoundException {
+
+        assetPage = new AssetPage();
+
         NewAssetPage createAssetPage = assetPage.clickCreateAssetBtn();
-        createAssetPage.setField("Asset Name", attributes.get("Asset name"))
-                .clickField("Account")
-                .clickRoleFirstOption();
-        assetDetailPage = createAssetPage.clickSaveBtn();
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        asset = ToEntity.convert(table, Asset.class);
+
+        fields = table.keySet();
+        base.assetDetailPage = createAssetPage.createAsset(table.keySet(), asset);
+
+        SimpleDateFormat sdf = new SimpleDateFormat("d/M/yyyy");
         recentDateString = sdf.format(new Date());
     }
 
-    @Then("A successful message of creating is display")
+    @Then("Validate successful message of creating that is display")
     public void aSuccessfulMessageOfCreatingIsDisplay() {
-        softAssert.assertEquals(assetDetailPage.getActionMessage(),
-                "Asset \"Name Asset 1\" was created.", "Message of creating is not correct");
+        softAssert.assertEquals(base.assetDetailPage.getActionMessage(), "success\nAsset \"Name Asset 1\" was"
+                + " created.\nClose", "Message of creating is not correct");
     }
 
-    @And("All header fields match")
+    @And("Validate All header fields match")
     public void allHeaderFieldsMatch() {
-        softAssert.assertEquals(assetDetailPage.getField("Account"), "cuenta 13",
-                "Account name does not match");
+        base.assetDetailPage.compareHeaderField(softAssert, fields, asset);
     }
 
-    @And("All detail fields match")
+    @And("Validate All detail fields match")
     public void allDetailFieldsMatch() {
+        base.assetDetailPage.compareDetailField(softAssert, fields, asset);
     }
 
-    @And("The title matches")
+    @And("Validate The title matches")
     public void theTitleMatches() {
-        softAssert.assertEquals(assetDetailPage.getCreatedAssetTitleText(), "Name Asset 1",
-                "Asset title does not match");
+        softAssert.assertEquals(base.assetDetailPage.getCreatedAssetTitleText(), asset.getName(),
+                "Asset was not created");
     }
 
-    @And("The created date matches")
+    @And("Validate The created date matches")
     public void theCreatedDateMatches() {
-        softAssert.assertTrue(assetDetailPage.getCreatedDate().contains(recentDateString));
+        softAssert.assertTrue(base.assetDetailPage.getCreatedDate().contains(recentDateString));
+        softAssert.assertAll();
     }
 }

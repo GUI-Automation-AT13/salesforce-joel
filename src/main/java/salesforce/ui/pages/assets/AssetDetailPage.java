@@ -8,10 +8,16 @@
 
 package salesforce.ui.pages.assets;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.testng.asserts.SoftAssert;
+import salesforce.api.entity.Asset;
+import salesforce.ui.FieldName;
 import salesforce.ui.pages.BasePage;
 
 /**
@@ -107,5 +113,69 @@ public class AssetDetailPage extends BasePage {
      */
     public String getCreatedDate() {
         return createdDate.getText();
+    }
+
+    /**
+     * Compares header field values with asset values filtering what to compare using a set.
+     *
+     * @param softAssert is a SoftAssert entity.
+     * @param fields is Set entity.
+     * @param asset is an Asset entity.
+     */
+    public void compareHeaderField(SoftAssert softAssert, Set<String> fields, Asset asset) {
+        Map<String, Runnable> strategyMap = new HashMap<>();
+        strategyMap.put("AccountName",
+                () -> softAssert.assertEquals(getField(FieldName.ACCOUNT.getText()), asset.getAccountName(),
+                        "Account name of Header does not match"));
+        strategyMap.put("ContactName",
+                () -> softAssert.assertEquals(getField(FieldName.CONTACT.getText()), asset.getContactName(),
+                        "Contact name of Header does not match"));
+        strategyMap.put("Quantity",
+                () -> softAssert.assertTrue(getBodyQuantity().contains(Double.toString(asset.getQuantity())),
+                        "Asset quantity of Header does not match"));
+        fields.forEach(field -> {
+            if (strategyMap.containsKey(field)) {
+                strategyMap.get(field).run();
+            }
+        });
+    }
+
+    /**
+     * Compares detail field values with asset values filtering what to compare using a set.
+     *
+     * @param softAssert is a SoftAssert entity.
+     * @param fields is Set entity.
+     * @param asset is an Asset entity.
+     */
+    public void compareDetailField(SoftAssert softAssert, Set<String> fields, Asset asset) {
+        Map<String, Runnable> strategyMap = new HashMap<>();
+        strategyMap.put("Name",
+                () -> softAssert.assertEquals(getFieldBody(FieldName.ASSET_NAME.getText()), asset.getName(),
+                        "Asset name of Details does not match"));
+        strategyMap.put("SerialNumber",
+                () -> softAssert.assertEquals(getFieldBody(FieldName.SERIAL_NUMBER.getText()), asset.getSerialNumber(),
+                        "Asset serial number of Details does not match"));
+        strategyMap.put("Quantity",
+                () -> softAssert.assertTrue(getFieldBody(FieldName.QUANTITY.getText())
+                                .contains(Double.toString(asset.getQuantity())),
+                        "Asset quantity of Details does not match"));
+        strategyMap.put("Price",
+                () -> softAssert.assertTrue(getFieldBody(FieldName.PRICE.getText())
+                                .contains(Double.toString(asset.getPrice())),
+                        "Asset price of Details does not match"));
+        strategyMap.put("InstallDate",
+                () -> softAssert.assertEquals(getFieldBody(FieldName.INSTALL_DATE.getText()), asset.getInstallDate(),
+                        "Asset install Date of Details does not match"));
+        strategyMap.put("PurchaseDate",
+                () -> softAssert.assertEquals(getFieldBody(FieldName.PURCHASE_DATE.getText()), asset.getPurchaseDate(),
+                        "Asset purchase Date of Details does not match"));
+        strategyMap.put("UsageEndDate",
+                () -> softAssert.assertEquals(getFieldBody(FieldName.USAGE_END_DATE.getText()), asset.getUsageEndDate(),
+                        "Asset usage End Date of Details does not match"));
+        fields.forEach(field -> {
+            if (strategyMap.containsKey(field)) {
+                strategyMap.get(field).run();
+            }
+        });
     }
 }
