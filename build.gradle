@@ -1,0 +1,61 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'info.solidsoft.gradle.pitest:gradle-pitest-plugin:1.6.0'
+    }
+}
+
+plugins {
+    id 'java'
+    id 'checkstyle'
+    id 'info.solidsoft.pitest'  version '1.6.0'
+}
+
+group 'org.example'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.testng:testng:7.4.0'
+    implementation 'org.seleniumhq.selenium:selenium-java:3.141.59'
+    implementation 'io.github.bonigarcia:webdrivermanager:4.4.3'
+    implementation 'io.rest-assured:rest-assured:4.4.0'
+    implementation 'com.fasterxml.jackson.core:jackson-annotations:2.12.4'
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.12.4'
+}
+
+test {
+    useTestNG()
+}
+
+checkstyle {
+    toolVersion '8.44'
+    configFile file('config/checkstyle/checkstyle.xml')
+    checkstyleMain.source = "src/main/"
+    checkstyleMain.excludes = ["**/src/test/**"]
+}
+
+checkstyleMain {
+    source = 'src/main/java'
+}
+
+checkstyleTest {
+    source = 'src/main/java'
+}
+
+check.dependsOn build
+
+test.finalizedBy("checkstyleMain")
+
+pitest {
+    testPlugin = 'testng'
+    targetClasses = ['core.utils.dateconverter.DateConverter*']
+    targetTests = ['unittest.core.utils.DateConverterTest*']
+    threads = 4
+    outputFormats = ['XML', 'HTML']
+}
