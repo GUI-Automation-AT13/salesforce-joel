@@ -8,18 +8,16 @@
 
 package salesforce.ui.pages.assets;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import salesforce.api.entity.Account;
 import salesforce.api.entity.Asset;
 import salesforce.ui.FieldName;
 import salesforce.ui.pages.BasePage;
-
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
 
 /**
  * Represents asset creation page.
