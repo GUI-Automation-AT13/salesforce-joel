@@ -215,6 +215,9 @@ public class NewAssetPage extends BasePage {
                 .clickContactFirstOption());
         strategyMap.put("ProductName", () -> clickField(FieldName.PRODUCT.getText())
                 .clickProductFirstOption());
+        strategyMap.put("Status", () -> clickStatus()
+                .clickStatusOptions());
+        strategyMap.put("IsCompetitorProduct", () -> clickActive());
         fields.forEach(field -> strategyMap.get(field).run());
         return clickSaveBtn();
     }

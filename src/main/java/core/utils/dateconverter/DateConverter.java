@@ -140,4 +140,14 @@ public class DateConverter {
     private static boolean isCorrect(String stringDate) {
         return stringDate.matches("^(0?[1-9]|1[012])[/-](0?[1-9]|[12][0-9]|3[01])[/-]((19|20)\\d\\d)$");
     }
+
+    /**
+     * Gets recent date in string format.
+     *
+     * @return a string.
+     */
+    public static String getRecentDate() {
+        SimpleDateFormat sdf = new SimpleDateFormat("d/M/yyyy");
+        return sdf.format(new Date());
+    }
 }

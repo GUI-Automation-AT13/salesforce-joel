@@ -131,7 +131,7 @@ public class AssetDetailPage extends BasePage {
                 () -> softAssert.assertEquals(getField(FieldName.CONTACT.getText()), asset.getContactName(),
                         "Contact name of Header does not match"));
         strategyMap.put("Quantity",
-                () -> softAssert.assertTrue(getBodyQuantity().contains(Double.toString(asset.getQuantity())),
+                () -> softAssert.assertTrue(getBodyQuantity().contains(Integer.toString((int) asset.getQuantity())),
                         "Asset quantity of Header does not match"));
         fields.forEach(field -> {
             if (strategyMap.containsKey(field)) {
@@ -157,11 +157,11 @@ public class AssetDetailPage extends BasePage {
                         "Asset serial number of Details does not match"));
         strategyMap.put("Quantity",
                 () -> softAssert.assertTrue(getFieldBody(FieldName.QUANTITY.getText())
-                                .contains(Double.toString(asset.getQuantity())),
+                                .contains(Integer.toString((int) asset.getQuantity())),
                         "Asset quantity of Details does not match"));
         strategyMap.put("Price",
                 () -> softAssert.assertTrue(getFieldBody(FieldName.PRICE.getText())
-                                .contains(Double.toString(asset.getPrice())),
+                                .contains(Integer.toString((int) asset.getPrice())),
                         "Asset price of Details does not match"));
         strategyMap.put("InstallDate",
                 () -> softAssert.assertEquals(getFieldBody(FieldName.INSTALL_DATE.getText()), asset.getInstallDate(),
