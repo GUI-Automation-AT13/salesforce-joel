@@ -21,6 +21,7 @@ public class EnvConfig {
     private String endpointUrl;
     private String baseurl;
     private String loginUrl;
+    private String anyEndpointUrl;
 
     private EnvConfig() {
         initialize();
@@ -40,11 +41,12 @@ public class EnvConfig {
 
     private void initialize() {
         Properties properties = Environment.readFile();
-        username = properties.getProperty("username");;
-        password = properties.getProperty("password");;
-        endpointUrl = properties.getProperty("endpointUrl");;
-        baseurl = properties.getProperty("baseurl");;
-        loginUrl = properties.getProperty("loginUrl");;
+        username = properties.getProperty("username");
+        password = properties.getProperty("password");
+        endpointUrl = properties.getProperty("endpointUrl");
+        baseurl = properties.getProperty("baseurl");
+        loginUrl = properties.getProperty("loginUrl");
+        anyEndpointUrl = properties.getProperty("anyEndpointUrl");
     }
 
     public String getUsername() {
@@ -65,5 +67,9 @@ public class EnvConfig {
 
     public String getLoginUrl() {
         return loginUrl;
+    }
+
+    public String getAnyEndpointUrl() {
+        return anyEndpointUrl;
     }
 }

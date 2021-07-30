@@ -19,7 +19,7 @@ import salesforce.ui.pages.assets.AssetPage;
 public class PageTransporter {
     private String baseUrl = EnvConfig.getInstance().getBaseurl();
 
-    public void goToUrl(final String url) {
+    public static void goToUrl(final String url) {
         DriverManager.getInstance().getDriver().navigate().to(url);
     }
 
@@ -41,5 +41,13 @@ public class PageTransporter {
     public LoginPage navigateToLoginPage() {
         goToUrl(EnvConfig.getInstance().getLoginUrl());
         return new LoginPage();
+    }
+
+    /**
+     * Navigates to any page.
+     */
+    public static void navigateToAnyPage(final String endpoint) {
+        goToUrl(EnvConfig.getInstance().getBaseurl().concat(String.format(EnvConfig.getInstance().getEndpointUrl(),
+                endpoint)));
     }
 }

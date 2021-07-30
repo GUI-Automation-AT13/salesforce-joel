@@ -8,10 +8,15 @@
 
 package salesforce.ui.pages.assets;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import salesforce.api.entity.Asset;
+import salesforce.ui.FieldName;
 import salesforce.ui.pages.BasePage;
 
 /**
@@ -180,5 +185,40 @@ public class NewAssetPage extends BasePage {
     public AssetDetailPage clickSaveBtn() {
         saveBtn.click();
         return new AssetDetailPage();
+    }
+
+    /**
+     * Sets NewAssetPage webElement.
+     *
+     * @return a AssetDetailPage entity.
+     */
+    public AssetDetailPage createAsset(Set<String> fields, Asset asset) {
+        Map<String, Runnable> strategyMap = new HashMap<>();
+        strategyMap.put("Name",
+                () -> setField(FieldName.ASSET_NAME.getText(), asset.getName()));
+        strategyMap.put("SerialNumber",
+                () -> setField(FieldName.SERIAL_NUMBER.getText(), asset.getSerialNumber()));
+        strategyMap.put("Quantity",
+                () -> setField(FieldName.QUANTITY.getText(), Double.toString(asset.getQuantity())));
+        strategyMap.put("Price",
+                () -> setField(FieldName.PRICE.getText(), Double.toString(asset.getPrice())));
+        strategyMap.put("Description", () -> setDescription(asset.getDescription()));
+        strategyMap.put("InstallDate",
+                () -> setField(FieldName.INSTALL_DATE.getText(), asset.getInstallDate()));
+        strategyMap.put("PurchaseDate",
+                () -> setField(FieldName.PURCHASE_DATE.getText(), asset.getPurchaseDate()));
+        strategyMap.put("UsageEndDate",
+                () -> setField(FieldName.USAGE_END_DATE.getText(), asset.getUsageEndDate()));
+        strategyMap.put("AccountName", () -> clickField(FieldName.ACCOUNT.getText())
+                .clickRoleFirstOption());
+        strategyMap.put("ContactName", () -> clickField(FieldName.CONTACT.getText())
+                .clickContactFirstOption());
+        strategyMap.put("ProductName", () -> clickField(FieldName.PRODUCT.getText())
+                .clickProductFirstOption());
+        strategyMap.put("Status", () -> clickStatus()
+                .clickStatusOptions());
+        strategyMap.put("IsCompetitorProduct", () -> clickActive());
+        fields.forEach(field -> strategyMap.get(field).run());
+        return clickSaveBtn();
     }
 }

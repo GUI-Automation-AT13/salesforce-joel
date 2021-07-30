@@ -22,7 +22,8 @@ public enum FieldName {
     PURCHASE_DATE("Purchase Date"),
     USAGE_END_DATE("Usage End Date"),
     CONTACT("Contact"),
-    PRODUCT("Product");
+    PRODUCT("Product"),
+    STATUS("Status");
     private String text;
 
     FieldName(String text) {
